@@ -38,6 +38,8 @@ namespace SM_WEB.Controllers
         [HttpPost]
         public IActionResult Registro(Usuario modelo)
         {
+            /* llamado al API */
+
             return View();
         }
 
