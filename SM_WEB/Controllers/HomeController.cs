@@ -5,6 +5,12 @@ namespace SM_WEB.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly IHttpClientFactory _http;
+        public HomeController(IHttpClientFactory http)
+        {
+            _http = http;
+        }
+
         [HttpGet]
         public IActionResult Index()
         {
@@ -38,7 +44,11 @@ namespace SM_WEB.Controllers
         [HttpPost]
         public IActionResult Registro(Usuario modelo)
         {
-            /* llamado al API */
+            using (var client = _http.CreateClient())
+            {
+                var url = "https://localhost:7040/api/Home/RegistrarCuenta";
+                var result = client.PostAsJsonAsync(url, modelo).Result;
+            }
 
             return View();
         }
