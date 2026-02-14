@@ -20,10 +20,13 @@ namespace SM_API.Controllers
                 parametros.Add("@CorreoElectronico", modelo.CorreoElectronico);
                 parametros.Add("@Contrasenna", modelo.Contrasenna);
 
-                context.Execute("RegistrarCuenta", parametros);
-            }
+                var result = context.Execute("RegistrarCuenta", parametros);
 
-            return Ok();
+                if(result <= 0)
+                    return BadRequest("Su información no se registró correctamente");
+
+                return Ok("Su información se registró correctamente");
+            }
         }
     }
 }

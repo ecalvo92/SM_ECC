@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SM_WEB.Models;
+using System.Net;
 
 namespace SM_WEB.Controllers
 {
@@ -42,9 +43,15 @@ namespace SM_WEB.Controllers
             {
                 var url = _config.GetValue<string>("Valores:UrlAPI") + "Home/RegistrarCuenta";
                 var result = client.PostAsJsonAsync(url, modelo).Result;
-            }
 
-            return View();
+                if (result.StatusCode == HttpStatusCode.OK)
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+
+                ViewBag.Mensaje = result.Content.ReadAsStringAsync().Result;
+                return View();
+            }
         }
 
         #endregion
