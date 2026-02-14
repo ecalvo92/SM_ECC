@@ -10,12 +10,19 @@
         <h3 class="mb-4 pb-2">Iniciar de Sesión</h3>
     </div>
 
-    <form asp-controller="Home" asp-action="Login" class="custom-form contact-form" role="form">
+    @if (ViewBag.Mensaje != null)
+    {
+        <div class="alert alert-danger text-center text-black">
+            @ViewBag.Mensaje
+        </div>
+    }
+
+    <form id="formLogin" asp-controller="Home" asp-action="Login" class="custom-form contact-form" role="form">
         <div class="row">
             <div class="col-lg-12 col-12">
                 <div class="form-floating">
-                    <input type="text" asp-for="Identificacion" class="form-control" placeholder="Name" required="">
-                    <label for="floatingInput">Identificación</label>
+                    <input type="text" asp-for="CorreoElectronico" class="form-control" placeholder="Name" required="">
+                    <label for="floatingInput">Correo Electrónico</label>
                 </div>
             </div>
 
@@ -40,3 +47,5 @@
         </div>
     </form>
 </div>
+
+<script src="~/js/login.js" asp-append-version="true"></script>

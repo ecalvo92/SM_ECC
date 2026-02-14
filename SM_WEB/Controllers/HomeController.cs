@@ -23,6 +23,16 @@ namespace SM_WEB.Controllers
         [HttpPost]
         public IActionResult Login(Usuario modelo)
         {
+            using var client = _http.CreateClient();
+            var url = _config.GetValue<string>("Valores:UrlAPI") + "Home/IniciarSesion";
+            var result = client.PostAsJsonAsync(url, modelo).Result;
+
+            if (result.StatusCode == HttpStatusCode.OK)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            ViewBag.Mensaje = result.Content.ReadAsStringAsync().Result;
             return View();
         }
 
@@ -39,19 +49,17 @@ namespace SM_WEB.Controllers
         [HttpPost]
         public IActionResult Registro(Usuario modelo)
         {
-            using (var client = _http.CreateClient())
+            using var client = _http.CreateClient();
+            var url = _config.GetValue<string>("Valores:UrlAPI") + "Home/RegistrarCuenta";
+            var result = client.PostAsJsonAsync(url, modelo).Result;
+
+            if (result.StatusCode == HttpStatusCode.OK)
             {
-                var url = _config.GetValue<string>("Valores:UrlAPI") + "Home/RegistrarCuenta";
-                var result = client.PostAsJsonAsync(url, modelo).Result;
-
-                if (result.StatusCode == HttpStatusCode.OK)
-                {
-                    return RedirectToAction("Login", "Home");
-                }
-
-                ViewBag.Mensaje = result.Content.ReadAsStringAsync().Result;
-                return View();
+                return RedirectToAction("Login", "Home");
             }
+
+            ViewBag.Mensaje = result.Content.ReadAsStringAsync().Result;
+            return View();
         }
 
         #endregion

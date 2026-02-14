@@ -12,21 +12,36 @@ namespace SM_API.Controllers
         [HttpPost("RegistrarCuenta")]
         public IActionResult RegistrarCuenta(Usuario modelo)
         {
-            using (var context = new SqlConnection(_config.GetValue<string>("ConnectionStrings:DefaultConnection")))
-            {
-                var parametros = new DynamicParameters();
-                parametros.Add("@Identificacion", modelo.Identificacion);
-                parametros.Add("@Nombre", modelo.Nombre);
-                parametros.Add("@CorreoElectronico", modelo.CorreoElectronico);
-                parametros.Add("@Contrasenna", modelo.Contrasenna);
+            using var context = new SqlConnection(_config.GetValue<string>("ConnectionStrings:DefaultConnection"));
+            var parametros = new DynamicParameters();
+            parametros.Add("@Identificacion", modelo.Identificacion);
+            parametros.Add("@Nombre", modelo.Nombre);
+            parametros.Add("@CorreoElectronico", modelo.CorreoElectronico);
+            parametros.Add("@Contrasenna", modelo.Contrasenna);
 
-                var result = context.Execute("RegistrarCuenta", parametros);
+            var result = context.Execute("RegistrarCuenta", parametros);
 
-                if(result <= 0)
-                    return BadRequest("Su información no se registró correctamente");
+            if (result <= 0)
+                return BadRequest("Su información no se registró correctamente");
 
-                return Ok("Su información se registró correctamente");
-            }
+            return Ok("Su información se registró correctamente");
         }
+
+        [HttpPost("IniciarSesion")]
+        public IActionResult IniciarSesion(Usuario modelo)
+        {
+            using var context = new SqlConnection(_config.GetValue<string>("ConnectionStrings:DefaultConnection"));
+            var parametros = new DynamicParameters();
+            parametros.Add("@CorreoElectronico", modelo.CorreoElectronico);
+            parametros.Add("@Contrasenna", modelo.Contrasenna);
+
+            var result = context.QueryFirstOrDefault<Usuario>("IniciarSesion", parametros);
+
+            if (result == null)
+                return BadRequest("Su información no se autenticó correctamente");
+
+            return Ok("Su información se autenticó correctamente");
+        }
+
     }
 }
