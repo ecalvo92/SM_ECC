@@ -13,6 +13,7 @@ CREATE TABLE [dbo].[tUsuario](
 	[Nombre] [varchar](200) NOT NULL,
 	[CorreoElectronico] [varchar](100) NOT NULL,
 	[Contrasenna] [varchar](100) NOT NULL,
+	[Estado] [bit] NOT NULL,
  CONSTRAINT [PK_tUsuario] PRIMARY KEY CLUSTERED 
 (
 	[Consecutivo] ASC
@@ -22,9 +23,40 @@ GO
 
 SET IDENTITY_INSERT [dbo].[tUsuario] ON 
 GO
-INSERT [dbo].[tUsuario] ([Consecutivo], [Identificacion], [Nombre], [CorreoElectronico], [Contrasenna]) VALUES (1, N'304590415', N'EDUARDO JOSE CALVO CASTILLO', N'ecalvo90415@ufide.ac.cr', N'90415')
+INSERT [dbo].[tUsuario] ([Consecutivo], [Identificacion], [Nombre], [CorreoElectronico], [Contrasenna], [Estado]) VALUES (1, N'304590415', N'EDUARDO JOSE CALVO CASTILLO', N'ecalvo90415@ufide.ac.cr', N'90415', 1)
 GO
 SET IDENTITY_INSERT [dbo].[tUsuario] OFF
+GO
+
+ALTER TABLE [dbo].[tUsuario] ADD  CONSTRAINT [UK_CorreoElectronico] UNIQUE NONCLUSTERED 
+(
+	[CorreoElectronico] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+
+ALTER TABLE [dbo].[tUsuario] ADD  CONSTRAINT [UK_Identificacion] UNIQUE NONCLUSTERED 
+(
+	[Identificacion] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+GO
+
+CREATE PROCEDURE [dbo].[IniciarSesion]
+	@CorreoElectronico  varchar(100),
+    @Contrasenna        varchar(100)
+AS
+BEGIN
+
+    SELECT  Consecutivo,
+            Identificacion,
+            Nombre,
+            CorreoElectronico,
+            Contrasenna
+    FROM    tUsuario
+    WHERE   CorreoElectronico = @CorreoElectronico
+        AND Contrasenna = @Contrasenna
+        AND Estado = 1
+
+END
 GO
 
 CREATE PROCEDURE [dbo].[RegistrarCuenta]
@@ -34,9 +66,16 @@ CREATE PROCEDURE [dbo].[RegistrarCuenta]
     @Contrasenna        varchar(100)
 AS
 BEGIN
-	
-    INSERT INTO dbo.tUsuario(Identificacion,Nombre,CorreoElectronico,Contrasenna)
-    VALUES (@Identificacion, @Nombre, @CorreoElectronico,@Contrasenna)
 
+    IF NOT EXISTS (
+        SELECT 1 FROM tUsuario
+        WHERE   Identificacion = @Identificacion
+            OR  CorreoElectronico = @CorreoElectronico)
+    BEGIN
+	
+        INSERT INTO dbo.tUsuario(Identificacion,Nombre,CorreoElectronico,Contrasenna,Estado)
+        VALUES (@Identificacion, @Nombre, @CorreoElectronico,@Contrasenna,1)
+
+    END
 END
 GO
