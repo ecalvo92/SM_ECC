@@ -3,14 +3,8 @@ using SM_WEB.Models;
 
 namespace SM_WEB.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController(IHttpClientFactory _http, IConfiguration _config) : Controller
     {
-        private readonly IHttpClientFactory _http;
-        public HomeController(IHttpClientFactory http)
-        {
-            _http = http;
-        }
-
         [HttpGet]
         public IActionResult Index()
         {
@@ -46,7 +40,7 @@ namespace SM_WEB.Controllers
         {
             using (var client = _http.CreateClient())
             {
-                var url = "https://localhost:7040/api/Home/RegistrarCuenta";
+                var url = _config.GetValue<string>("Valores:UrlAPI") + "Home/RegistrarCuenta";
                 var result = client.PostAsJsonAsync(url, modelo).Result;
             }
 
