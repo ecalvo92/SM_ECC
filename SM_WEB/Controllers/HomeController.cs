@@ -31,6 +31,10 @@ namespace SM_WEB.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+            else if (result.StatusCode == HttpStatusCode.InternalServerError)
+            {
+                throw new Exception();
+            }
 
             ViewBag.Mensaje = result.Content.ReadAsStringAsync().Result;
             return View();
@@ -56,6 +60,10 @@ namespace SM_WEB.Controllers
             if (result.StatusCode == HttpStatusCode.OK)
             {
                 return RedirectToAction("Login", "Home");
+            }
+            else if (result.StatusCode == HttpStatusCode.InternalServerError)
+            {
+                throw new Exception();
             }
 
             ViewBag.Mensaje = result.Content.ReadAsStringAsync().Result;
