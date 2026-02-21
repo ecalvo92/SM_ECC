@@ -1,4 +1,8 @@
-﻿<!doctype html>
+﻿@{
+    var nombre = Context.Session.GetString("NombreUsuario") ?? "Invitad@";
+}
+
+<!doctype html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -60,8 +64,9 @@
                         </li>
                     </ul>
 
-                    <div class="d-none d-lg-block">
-                        <a asp-controller="Home" asp-action="Login" class="navbar-icon bi-person smoothscroll"></a>
+                    <div class="d-none d-lg-block text-white">
+                        @nombre
+                        <a asp-controller="Home" asp-action="Login" class="navbar-icon bi-person smoothscroll ms-3"></a>
                     </div>
                 </div>
             </div>

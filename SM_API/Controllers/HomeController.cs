@@ -40,7 +40,7 @@ namespace SM_API.Controllers
             if (result == null)
                 return BadRequest("Su información no se autenticó correctamente");
 
-            return Ok("Su información se autenticó correctamente");
+            return Ok(result);
         }
 
     }

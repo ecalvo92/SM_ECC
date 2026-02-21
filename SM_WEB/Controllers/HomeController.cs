@@ -29,6 +29,9 @@ namespace SM_WEB.Controllers
 
             if (result.StatusCode == HttpStatusCode.OK)
             {
+                var datos = result.Content.ReadFromJsonAsync<Usuario>().Result;
+
+                HttpContext.Session.SetString("NombreUsuario", datos!.Nombre);
                 return RedirectToAction("Index", "Home");
             }
             else if (result.StatusCode == HttpStatusCode.InternalServerError)
