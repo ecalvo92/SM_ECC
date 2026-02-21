@@ -1,6 +1,8 @@
-﻿namespace SM_API.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SM_API.Models
 {
-    public class Usuario
+    public class UsuarioResponse
     {
         public string Identificacion { get; set; } = string.Empty;
         public string Contrasenna { get; set; } = string.Empty;

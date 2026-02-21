@@ -10,7 +10,7 @@ namespace SM_API.Controllers
     public class HomeController(IConfiguration _config) : ControllerBase
     {
         [HttpPost("RegistrarCuenta")]
-        public IActionResult RegistrarCuenta(Usuario modelo)
+        public IActionResult RegistrarCuenta(RegistroUsuarioRequest modelo)
         {
             using var context = new SqlConnection(_config.GetValue<string>("ConnectionStrings:DefaultConnection"));
             var parametros = new DynamicParameters();
@@ -28,14 +28,14 @@ namespace SM_API.Controllers
         }
 
         [HttpPost("IniciarSesion")]
-        public IActionResult IniciarSesion(Usuario modelo)
+        public IActionResult IniciarSesion(IniciarSesionRequest modelo)
         {
             using var context = new SqlConnection(_config.GetValue<string>("ConnectionStrings:DefaultConnection"));
             var parametros = new DynamicParameters();
             parametros.Add("@CorreoElectronico", modelo.CorreoElectronico);
             parametros.Add("@Contrasenna", modelo.Contrasenna);
 
-            var result = context.QueryFirstOrDefault<Usuario>("IniciarSesion", parametros);
+            var result = context.QueryFirstOrDefault<UsuarioResponse>("IniciarSesion", parametros);
 
             if (result == null)
                 return BadRequest("Su información no se autenticó correctamente");
