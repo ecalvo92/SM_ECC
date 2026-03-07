@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using SM_WEB.Models;
+using SM_WEB.Services;
 using System.Net;
 
 namespace SM_WEB.Controllers
 {
-    public class HomeController(IHttpClientFactory _http, IConfiguration _config) : Controller
+    public class HomeController(IHttpClientFactory _http, IConfiguration _config, IUtilitario _util) : Controller
     {
         [HttpGet]
         public IActionResult Index()
@@ -23,6 +24,8 @@ namespace SM_WEB.Controllers
         [HttpPost]
         public IActionResult Login(Usuario modelo)
         {
+            modelo.Contrasenna = _util.Encrypt(modelo.Contrasenna);
+
             using var client = _http.CreateClient();
             var url = _config.GetValue<string>("Valores:UrlAPI") + "Home/IniciarSesion";
             var result = client.PostAsJsonAsync(url, modelo).Result;
@@ -56,6 +59,8 @@ namespace SM_WEB.Controllers
         [HttpPost]
         public IActionResult Registro(Usuario modelo)
         {
+            modelo.Contrasenna = _util.Encrypt(modelo.Contrasenna);
+
             using var client = _http.CreateClient();
             var url = _config.GetValue<string>("Valores:UrlAPI") + "Home/RegistrarCuenta";
             var result = client.PostAsJsonAsync(url, modelo).Result;

@@ -1,8 +1,11 @@
+using SM_WEB.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient();
 builder.Services.AddSession();
+builder.Services.AddScoped<IUtilitario, Utilitario>();
 
 var app = builder.Build();
 
