@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recuperación de acceso</title>
+</head>
+<body style="margin:0;padding:0;background-color:#f4f6f8;font-family:Arial,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f6f8;padding:40px 0;">
+    <tr>
+      <td align="center">
+        <table width="600" cellpadding="0" cellspacing="0" style="background-color:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+
+          <!-- Encabezado -->
+          <tr>
+            <td style="background-color:#0d6efd;padding:32px 40px;text-align:center;">
+              <h1 style="margin:0;color:#ffffff;font-size:22px;font-weight:700;letter-spacing:0.5px;">
+                Recuperación de Acceso
+              </h1>
+            </td>
+          </tr>
+
+          <!-- Cuerpo -->
+          <tr>
+            <td style="padding:36px 40px;">
+              <p style="margin:0 0 16px;font-size:16px;color:#333333;">
+                Hola, <strong>{{Nombre}}</strong>:
+              </p>
+              <p style="margin:0 0 24px;font-size:15px;color:#555555;line-height:1.6;">
+                Recibimos una solicitud para restablecer el acceso a tu cuenta. A continuación encontrarás tu nueva contraseña temporal:
+              </p>
+
+              <!-- Contraseña destacada -->
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td align="center" style="padding:8px 0 28px;">
+                    <span style="display:inline-block;background-color:#f0f4ff;border:1px dashed #0d6efd;border-radius:6px;padding:14px 40px;font-size:26px;font-weight:700;color:#0d6efd;letter-spacing:4px;">
+                      {{Contrasenna}}
+                    </span>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="margin:0 0 12px;font-size:15px;color:#555555;line-height:1.6;">
+                Por tu seguridad, te recomendamos:
+              </p>
+              <ul style="margin:0 0 24px;padding-left:20px;font-size:15px;color:#555555;line-height:1.8;">
+                <li>Ingresar al sistema con esta contraseña temporal.</li>
+                <li><strong>Cambiarla inmediatamente</strong> desde tu perfil.</li>
+                <li>No compartirla con nadie.</li>
+              </ul>
+
+              <!-- Aviso de no responder -->
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="background-color:#fff8e1;border-left:4px solid #ffc107;border-radius:4px;padding:14px 18px;">
+                    <p style="margin:0;font-size:13px;color:#7a6000;">
+                      ⚠️ <strong>Este correo es generado automáticamente.</strong> Por favor no respondas a este mensaje ya que no será atendido.
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Pie de página -->
+          <tr>
+            <td style="background-color:#f4f6f8;padding:20px 40px;text-align:center;border-top:1px solid #e9ecef;">
+              <p style="margin:0;font-size:12px;color:#999999;">
+                © 2025 · Este mensaje fue enviado de forma automática, no respondas a este correo.
+              </p>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>

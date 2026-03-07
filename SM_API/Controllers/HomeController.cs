@@ -71,12 +71,11 @@ namespace SM_API.Controllers
                 return BadRequest("Su información no se actualizó correctamente");
 
             //enviar un correo electronico con la nueva contraseña
-            EnviarCorreo(
-                modelo.CorreoElectronico,
-                "Recuperación de acceso",
-                $"Su nueva contraseña es: <b>{nuevaContrasenna}</b>"
-            );
+            var contenido = CargarPlantilla("RecuperarAcceso.html")
+                .Replace("{{Nombre}}", result.Nombre)
+                .Replace("{{Contrasenna}}", nuevaContrasenna);
 
+            EnviarCorreo(modelo.CorreoElectronico, "Recuperación de acceso", contenido);
             return Ok(result);
         }
 
@@ -85,6 +84,12 @@ namespace SM_API.Controllers
             const string letras = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
             var r = new Random();
             return new string([.. Enumerable.Range(0, 8).Select(x => letras[r.Next(letras.Length)])]);
+        }
+
+        private static string CargarPlantilla(string nombreArchivo)
+        {
+            var ruta = Path.Combine(AppContext.BaseDirectory, "Templates", nombreArchivo);
+            return System.IO.File.ReadAllText(ruta);
         }
 
         private void EnviarCorreo(string destinatario, string asunto, string contenido)
