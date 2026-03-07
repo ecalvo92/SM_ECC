@@ -1151,3 +1151,6 @@ blockquote {
   }
 }
 
+.ReadOnly {
+    cursor:not-allowed;
+}

@@ -42,3 +42,21 @@
   });
 
 });
+
+function ConsultarNombre() {
+
+  $("#Nombre").val("");
+  let identificacion = $("#Identificacion").val();
+
+  if (identificacion.length >= 9) {
+    $.ajax({
+      method: "GET",
+      url: "https://apis.gometa.org/cedulas/" + identificacion,
+      dataType: "json",
+      success: function (response) {
+        $("#Nombre").val(response.results[0].fullname);
+      }
+    });
+  }
+
+}
