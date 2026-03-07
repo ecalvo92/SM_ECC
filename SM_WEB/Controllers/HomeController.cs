@@ -86,6 +86,20 @@ namespace SM_WEB.Controllers
         [HttpPost]
         public IActionResult RecuperarAcceso(Usuario modelo)
         {
+            using var client = _http.CreateClient();
+            var url = _config.GetValue<string>("Valores:UrlAPI") + "Home/RecuperarAcceso";
+            var result = client.PutAsJsonAsync(url, modelo).Result;
+
+            if (result.StatusCode == HttpStatusCode.OK)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            else if (result.StatusCode == HttpStatusCode.InternalServerError)
+            {
+                throw new Exception();
+            }
+
+            ViewBag.Mensaje = result.Content.ReadAsStringAsync().Result;
             return View();
         }
 
