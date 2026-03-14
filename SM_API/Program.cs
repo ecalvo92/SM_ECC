@@ -1,8 +1,10 @@
+using SM_API.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
-
 builder.Services.AddOpenApi();
+builder.Services.AddScoped<IUtilitario, Utilitario>();
 
 var app = builder.Build();
 

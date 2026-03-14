@@ -4,12 +4,13 @@ using Microsoft.Data.SqlClient;
 using System.Net;
 using System.Net.Mail;
 using SM_API.Models;
+using SM_API.Services;
 
 namespace SM_API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class HomeController(IConfiguration _config) : ControllerBase
+    public class HomeController(IConfiguration _config, IUtilitario _util) : ControllerBase
     {
         [HttpPost("RegistrarCuenta")]
         public IActionResult RegistrarCuenta(RegistroUsuarioRequest modelo)
@@ -63,7 +64,7 @@ namespace SM_API.Controllers
 
             //actualizar la contraseña en la base de datos
             var parametrosActualizacion = new DynamicParameters();
-            parametrosActualizacion.Add("@Contrasenna", nuevaContrasenna);
+            parametrosActualizacion.Add("@Contrasenna", _util.Encrypt(nuevaContrasenna));
             parametrosActualizacion.Add("@Consecutivo", result.Consecutivo);
             var resultActualizacion = context.Execute("ActualizarContrasenna", parametrosActualizacion);
 
@@ -75,7 +76,7 @@ namespace SM_API.Controllers
                 .Replace("{{Nombre}}", result.Nombre)
                 .Replace("{{Contrasenna}}", nuevaContrasenna);
 
-            EnviarCorreo(modelo.CorreoElectronico, "Recuperación de acceso", contenido);
+            _util.EnviarCorreo(modelo.CorreoElectronico, "Recuperación de acceso", contenido);
             return Ok(result);
         }
 
@@ -90,22 +91,6 @@ namespace SM_API.Controllers
         {
             var ruta = Path.Combine(AppContext.BaseDirectory, "Templates", nombreArchivo);
             return System.IO.File.ReadAllText(ruta);
-        }
-
-        private void EnviarCorreo(string destinatario, string asunto, string contenido)
-        {
-            var host = _config.GetValue<string>("ConfiguracionCorreo:Host")!;
-            var puerto = _config.GetValue<int>("ConfiguracionCorreo:Puerto");
-            var remitente = _config.GetValue<string>("ConfiguracionCorreo:Remitente")!;
-            var contrasenna = _config.GetValue<string>("ConfiguracionCorreo:Contrasenna")!;
-
-            var mensaje = new MailMessage(remitente, destinatario, asunto, contenido);
-            mensaje.IsBodyHtml = true;
-
-            using var smtp = new SmtpClient(host, puerto);
-            smtp.Credentials = new NetworkCredential(remitente, contrasenna);
-            smtp.EnableSsl = true;
-            smtp.Send(mensaje);
         }
 
     }
