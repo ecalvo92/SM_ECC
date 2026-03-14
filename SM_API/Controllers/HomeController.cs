@@ -1,8 +1,6 @@
 using Dapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
-using System.Net;
-using System.Net.Mail;
 using SM_API.Models;
 using SM_API.Services;
 
