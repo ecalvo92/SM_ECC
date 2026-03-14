@@ -41,6 +41,7 @@ namespace SM_API.Controllers
             if (result == null)
                 return BadRequest("Su información no se autenticó correctamente");
 
+            result.Token = GenerarToken(result.Consecutivo);
             return Ok(result);
         }
 
@@ -89,6 +90,11 @@ namespace SM_API.Controllers
         {
             var ruta = Path.Combine(AppContext.BaseDirectory, "Templates", nombreArchivo);
             return System.IO.File.ReadAllText(ruta);
+        }
+
+        private static string GenerarToken(int consecutivo)
+        {
+            return string.Empty;
         }
 
     }
