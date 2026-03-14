@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using SM_WEB.Models;
 using SM_WEB.Services;
 using System.Net;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SM_WEB.Controllers
 {
@@ -110,5 +111,15 @@ namespace SM_WEB.Controllers
 
         #endregion
 
+        #region Cerrar Sesión
+
+        [HttpGet]
+        public IActionResult CerrarSesion()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Home");
+        }
+
+        #endregion
     }
 }
