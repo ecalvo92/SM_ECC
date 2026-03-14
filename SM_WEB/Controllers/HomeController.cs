@@ -36,6 +36,8 @@ namespace SM_WEB.Controllers
                 var datos = result.Content.ReadFromJsonAsync<Usuario>().Result;
 
                 HttpContext.Session.SetString("NombreUsuario", datos!.Nombre);
+                HttpContext.Session.SetInt32("Consecutivo", datos!.Consecutivo);
+
                 return RedirectToAction("Index", "Home");
             }
             else if (result.StatusCode == HttpStatusCode.InternalServerError)
