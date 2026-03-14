@@ -62,7 +62,11 @@ namespace SM_API.Services
             using var smtp = new SmtpClient(host, puerto);
             smtp.Credentials = new NetworkCredential(remitente, contrasenna);
             smtp.EnableSsl = true;
-            smtp.Send(mensaje);
+
+            if (!string.IsNullOrEmpty(contrasenna))
+            {
+                smtp.Send(mensaje);
+            }
         }
     }
 
